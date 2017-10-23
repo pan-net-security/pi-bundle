@@ -1,21 +1,21 @@
-Manage privacyidea daily opearations
+[privacyidea](http://www.privacyidea.org) [cog](http://cog-book.operable.io) bundle
 =======================================
 
 # Overview
 
-The `pi` bundle exposes a set of commands which allow operators to view and
-edit details of privacyidea tokens.
+The `pi` bundle exposes a set of commands which allow privacyidea operators to view and
+edit details of privacyidea objects (tokens, users).
 
 By default, *no one* can use this bundle: 
-  * `token:list` requires `privacyidea:read`
-  * `token:reset` requires `privacyidea:read` (FIXME)
+  * `token:list` requires `pi:read`
+  * `token:reset` requires `pi:read` (FIXME to `pi:write`)
 
 # Installing
 
 In chat:
 
 ```
-@cog bundle install pi
+/dm @cog bundle install pi
 ```
 
 From the command line:
@@ -31,9 +31,10 @@ and a password of a user with rights to the realm and objects (tokens, users).
 You can set these variables with Cog's dynamic config feature:
 
 ```bash
-echo 'pi_fqdn: <PI_SERVER_FQDN>' >> config.yaml
-echo 'pi_username: <PI_USERNAME>' >> config.yaml
-echo 'pi_password: <PI_PASSWORD>' >> config.yaml
+echo -e "---
+pi_fqdn: '<PI_SERVER_FQDN>'
+pi_username: '<PI_USERNAME>'
+pi_password: '<PI_PASSWORD>'" >> config.yaml
 cogctl dynamic-config create pi config.yaml
 ```
 
