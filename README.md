@@ -3,12 +3,12 @@ Manage privacyidea daily opearations
 
 # Overview
 
-The `privacyidea` bundle exposes one command `pi:token_list`, which allow you view and 
+The `pi` bundle exposes a set of commands which allow operators to view and
 edit details of privacyidea tokens.
 
 By default, *no one* can use this bundle: 
   * `token:list` requires `privacyidea:read`
-  * `token:delete` requires `privacyidea:write`
+  * `token:reset` requires `privacyidea:read` (FIXME)
 
 # Installing
 
@@ -26,8 +26,8 @@ cogctl bundle install pi
 
 # Configuring
 
-The `privacyidea` bundle requires your the privacyidea server FQDN, a username
-and a password of a user with rights to the realm and objects.
+The `pi` bundle requires the privacyidea server FQDN, a username
+and a password of a user with rights to the realm and objects (tokens, users).
 You can set these variables with Cog's dynamic config feature:
 
 ```bash
