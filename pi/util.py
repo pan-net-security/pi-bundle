@@ -34,4 +34,4 @@ def api_post(url, token=None, headers={}, body=""):
     return requests.post(url, headers=header_add_token(token,headers), data=body, verify=ca_bundle_path)
 
 def api_delete(url, token=None, headers={}, body=""):
-    return requests.patch(url, headers=header_add_token(token,headers), data=body, verify=ca_bundle_path)
+    return requests.delete(url, headers=header_add_token(token,headers), data=body, verify=ca_bundle_path)
