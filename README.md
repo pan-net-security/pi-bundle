@@ -44,4 +44,4 @@ To build the Docker image, simply run:
 
     $ make docker
 
-Requires Python 3.5.x, pip, make, and Docker.
+Requires Python 3.6.x, pip, make, and Docker.
