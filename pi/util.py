@@ -22,8 +22,7 @@ def header_add_token(token,headers={}):
     if token:
         HEADERS['PI-Authorization']=token
 
-    merged_headers = { **HEADERS, **headers }
-    return merged_headers
+    return headers.update(HEADERS)
 
 def api_get(url, token=None, headers={}, params={}):
     r = requests.get(url, headers=header_add_token(token,headers), params=params, verify=ca_bundle_path)
