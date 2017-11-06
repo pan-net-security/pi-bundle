@@ -106,8 +106,6 @@ class Token(PrivacyIdeaBase):
 
     @property
     def parse_subcommand_(self):
-        if self.request.args == None:
-            return self.list
         if self.request.args[0] == "list":
             return self.list
         if self.request.args[0] == "reset":

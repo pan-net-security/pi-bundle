@@ -2,10 +2,10 @@
 cog_bundle_version: 4
 
 name: pi
-version: 0.2.32
+version: 0.2.6
 docker:
   image: pannet/pi-bundle
-  tag: 0.2.5
+  tag: 0.2.6
 description: Manage privacyidea user resources and tokens
 long_description: >
   This bundle provides commands for viewing and manipulating users and token 

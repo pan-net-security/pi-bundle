@@ -1,5 +1,5 @@
 BUNDLE_NAME          = pi-bundle
-BUNDLE_VERSION      ?= 0.2.5
+BUNDLE_VERSION      ?= 0.2.6
 IMAGE_TAG            = pannet/$(BUNDLE_NAME):$(BUNDLE_VERSION)
 
 .PHONY: docker docker-clean docker-shell docker-fresh
