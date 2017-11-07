@@ -16,15 +16,15 @@ class PrivacyIdeaBase(Command):
 
     def prepare(self):
         self.pi_username = self.config("pi_username")
-        if self.pi_username == None:
+        if self.pi_username is None:
             self.fail("Missing dynamic configuration variable 'pi_username'.")
 
         self.pi_password = self.config("pi_password")
-        if self.pi_password == None:
+        if self.pi_password is None:
             self.fail("Missing dynamic configuration variable 'pi_password'.")
 
         self.pi_fqdn = self.config("pi_fqdn")
-        if self.pi_fqdn == None:
+        if self.pi_fqdn is None:
             self.fail("Missing dynamic configuration variable 'pi_fqdn'.")
         else:
             parsed_url = urllib.parse.urlparse(self.pi_fqdn)
@@ -36,46 +36,12 @@ class PrivacyIdeaBase(Command):
 
             self.pi_fqdn = parsed_url.geturl()
 
-    def get_auth_token_(self):
-        """Retrieve auth token
-
-        :returns: token or None upon error
-
-        **Example Authentication Request**:
-
-        .. sourcecode:: http
-
-           POST /auth HTTP/1.1
-           Host: example.com
-           Accept: application/json
-
-           username=admin
-           password=topsecret
-
-        **Example Authentication Response**:
-
-        .. sourcecode:: http
-
-           HTTP/1.0 200 OK
-           Content-Length: 354
-           Content-Type: application/json
-
-           {
-                "id": 1,
-                "jsonrpc": "2.0",
-                "result": {
-                    "status": true,
-                    "value": {
-                        "token": "eyJhbGciOiJIUz....jdpn9kIjuGRnGejmbFbM"
-                    }
-                },
-                "version": "privacyIDEA unknown"
-           }
-
+    def get_auth_token(self):
         """
-
+        http://privacyidea.readthedocs.io/en/latest/modules/api/auth.html#post--auth
+        """
         url = self.pi_fqdn
-        token_endpoint = ("%s/%s" % (url, "auth"))  # https://<fqdn>/token
+        token_endpoint = ("%s/%s" % (url, "auth"))
 
         username = self.pi_username
         password = self.pi_password
@@ -104,3 +70,26 @@ class PrivacyIdeaBase(Command):
             raise
         except util.requests.exceptions.InvalidSchema as e:
             raise
+
+    def validate_serial(self, serial=""):
+        if serial:
+            serial_length = 20
+            try:
+                if len(serial) > serial_length:
+                    self.fail("The token serial is too long (over " + str(serial_length) + " chars)")
+                if not serial.isalnum():
+                    self.fail("The token serial should be alphanumeric and... " + str(serial) + " is not #hax0r")
+            except Exception as e:
+                self.fail("Error while validating serial: " + str(e))
+
+    def validate_user(self, user=""):
+        if user:
+            username_length = 20
+            try:
+                if len(user) > username_length:
+                    self.fail("The username length is too long (over " + str(username_length) + " chars)")
+                if not user.isalnum():
+                    self.fail("The username should be alphanumeric and... " + str(user) + " is not #hax0r")
+
+            except Exception as e:
+                self.fail("Error while validating username: " + str(e))

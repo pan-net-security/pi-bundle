@@ -12,11 +12,12 @@ long_description: >
   in privacyidea.
   Permissions are used to control which users are authorized to run each command. 
   Listing and searching for resources requires the pi:read permission. 
-  Modifying the objecs or other values of a resource requires the pi:write 
-  permission. Other more powerful commands requires the pi:admin permission.
+  Modifying the objecs or other values of a resource requires the pi:write
+  Some delete and revoke commands require pi:admin permission.
 permissions:
   - pi:read
   - pi:write
+  - pi:execute
   - pi:admin
 config:
   notes: >
@@ -31,23 +32,39 @@ config:
   homepage: https://gitlab.tools.in.pan-net.eu/cog-bundles/privacyidea
   author: Diogenes Santos de Jesus <diogenes.jesus@telekom.com>
 commands:
-  token:
-    executable: /usr/bin/cog-command
-    description: Perform user tokens operations
+  token-list:
+    executable: /usr/bin/cog-subcommand
+    description: List token for a given user
     long_description: >
-      List, reset, view information of user tokens
+      List tokens for a user
     examples: |
       * List tokens for a given user
 
-          !pi:token list <user> [<user> ...]
-
-
-      * Reset all tokens for a user
-
-          !pi:token reset <user>
-
+          !pi:token-list <user> [<user> ...]
     rules:
         - must have pi:read
+  token-reset:
+    executable: /usr/bin/cog-subcommand
+    description: Reset failcounter for all tokens of a user
+    long_description: >
+      Reset failcounter for all tokens of a user
+    examples: |
+      * Reset failcounter for all tokens of a user
+
+          !pi:token-reset <user>
+    rules:
+        - must have pi:write
+  token-delete:
+    executable: /usr/bin/cog-subcommand
+    description: Delete a token
+    long_description: >
+      Delete a token based on serial
+    examples: |
+      * Delete a token based on serial
+
+          !pi:token-delete <serial> [<serial> ...]
+    rules:
+        - must have pi:admin
 templates:
   token_list:
     body: |
@@ -76,6 +93,8 @@ templates:
       ~end~
       ~end~
       ~end~
+      ~attachment title=$task.name color="white" footer="Pan-Net Infra Security"~
+      ~end~
   token_reset:
     body: |
       ~each var=$results~
@@ -89,4 +108,22 @@ templates:
       Could not reset all tokens for ~$item.name~
       ~end~
       ~end~
+      ~end~
+      ~attachment title=$task.name color="white" footer="Pan-Net Infra Security"~
+      ~end~
+  token_delete:
+    body: |
+      ~each var=$results as=token~
+        ~if cond=$token.result == 0~
+          ~attachment title=$token.serial color="red"~
+      The token was not deleted (Are you sure it exists?).
+          ~end~
+          ~end~
+        ~if cond=$token.result == 1~
+          ~attachment title=$token.serial color="green"~
+      Token deleted successfully.
+          ~end~
+        ~end~
+      ~end~
+      ~attachment title=$task.name color="white" footer="Pan-Net Infra Security"~
       ~end~

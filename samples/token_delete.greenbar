@@ -1,0 +1,14 @@
+~each var=$results as=token~
+~if cond=$token.result == 0~
+  ~attachment title=$token.serial color="red"~
+The token was not deleted (Are you sure it exists?).
+  ~end~
+  ~end~
+~if cond=$token.result == 1~
+  ~attachment title=$token.serial color="green"~
+Token deleted successfully.
+  ~end~
+~end~
+~end~
+~attachment title=$task.name color="white" footer="Pan-Net Infra Security"~
+~end~

@@ -1,5 +1,6 @@
 import requests
 import os
+import re
 
 CA_BUNDLE_FILE="/etc/ssl/certs/ca-certificates.crt"
 
