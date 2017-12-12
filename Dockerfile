@@ -2,9 +2,6 @@ FROM alpine:3.6
 
 MAINTAINER Diogenes Santos de Jesus <diogenes.jesus@telekom.com>
 
-# ENV http_proxy 'http://100.127.70.70:3128/'
-# ENV https_proxy 'http://100.127.70.70:3128/'
-
 # Install python3
 RUN apk update && \
     apk add --no-cache python3 git && \
@@ -20,11 +17,6 @@ RUN apk add ca-certificates wget && \
 RUN adduser -h /home/bundle -D bundle
 
 USER root
-
-RUN wget -q https://gitlab.tools.in.pan-net.eu/ansible-roles/ansible-trust-ca/raw/93f4a0e44f864b344a21ff6acffe4b14f184c5e8/files/ca-certs/pannetss-ica1.crt \
-    -P /usr/local/share/ca-certificates/ && \
-    wget -q https://gitlab.tools.in.pan-net.eu/ansible-roles/ansible-trust-ca/raw/93f4a0e44f864b344a21ff6acffe4b14f184c5e8/files/ca-certs/pannetss-root.crt \
-    -P /usr/local/share/ca-certificates/ 
 
 RUN    update-ca-certificates --fresh
 
@@ -47,8 +39,5 @@ RUN rm -rfv /home/bundle/pi-bundle/  \
             /root/.cache
 
 WORKDIR /home/bundle/
-
-#ENV http_proxy ''
-#ENV https_proxy '' 
 
 USER bundle
