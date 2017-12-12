@@ -3,4 +3,5 @@ certifi==2017.7.27.1
 chardet==3.0.4
 requests==2.18.4
 urllib3==1.22
-git+https://github.com/pan-net-security/pycog3.git@0.1.28
+git+https://github.com/operable/pycog3.git@0.1.28
+

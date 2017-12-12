@@ -2,17 +2,17 @@
 cog_bundle_version: 4
 
 name: pi
-version: 0.2.6
+version: 0.2.7
 docker:
   image: pannet/pi-bundle
-  tag: 0.2.6
-description: Manage privacyidea user resources and tokens
+  tag: 0.2.7
+description: Manage privacyIDEA user resources and tokens
 long_description: >
   This bundle provides commands for viewing and manipulating users and token 
-  in privacyidea.
+  in privacyIDEA.
   Permissions are used to control which users are authorized to run each command. 
   Listing and searching for resources requires the pi:read permission. 
-  Modifying the objecs or other values of a resource requires the pi:write
+  Modifying the objects or other values of a resource requires the pi:write
   Some delete and revoke commands require pi:admin permission.
 permissions:
   - pi:read
@@ -21,19 +21,19 @@ permissions:
   - pi:admin
 config:
   notes: >
-    Make sure the privacyidea user set in the environment variables has the necessary rights.
+    Make sure the privacyIDEA user set in the environment variables has the necessary rights.
   env:
     - var: pi_fqdn
-      description: privacyidea FQDN (missing schema default to https)
+      description: privacyIDEA FQDN (missing http schema will default to https)
     - var: pi_username
-      description: privacyidea username
+      description: privacyIDEA username
     - var: pi_password
-      description: privacyidea user's password
-  homepage: https://gitlab.tools.in.pan-net.eu/cog-bundles/privacyidea
+      description: privacyIDEA user's password
+  homepage: https://github.com/pan-net-security/pi-bundle
   author: Diogenes Santos de Jesus <diogenes.jesus@telekom.com>
 commands:
   token-list:
-    executable: /usr/bin/cog-subcommand
+    executable: /usr/bin/cog-command
     description: List token for a given user
     long_description: >
       List tokens for a user
@@ -44,7 +44,7 @@ commands:
     rules:
         - must have pi:read
   token-reset:
-    executable: /usr/bin/cog-subcommand
+    executable: /usr/bin/cog-command
     description: Reset failcounter for all tokens of a user
     long_description: >
       Reset failcounter for all tokens of a user
@@ -55,7 +55,7 @@ commands:
     rules:
         - must have pi:write
   token-delete:
-    executable: /usr/bin/cog-subcommand
+    executable: /usr/bin/cog-command
     description: Delete a token
     long_description: >
       Delete a token based on serial
@@ -69,6 +69,7 @@ templates:
   token_list:
     body: |
       ~each var=$results as=user~
+      ~if cond=$user.result == true~
       ~if cond=length($user.tokens) == 0~
       ~attachment title=$user.name color="black"~
       No token assigned for ~$user.name~
@@ -93,7 +94,13 @@ templates:
       ~end~
       ~end~
       ~end~
-      ~attachment title=$task.name color="white" footer="Pan-Net Infra Security"~
+      ~if cond=$user.result == false~
+      ~attachment title=$user.name color="black"~
+      The user was not found.
+      ~end~
+      ~end~
+      ~end~
+      ~attachment title=$task.name color="white" footer="Example.org"~
       ~end~
   token_reset:
     body: |

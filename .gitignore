@@ -5,3 +5,5 @@ build
 dist
 *.egg-info
 *dyn.yaml
+!.gitignore
+!.gitlab-ci.yml

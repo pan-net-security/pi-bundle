@@ -26,9 +26,7 @@ def header_add_token(token,headers={}):
     return HEADERS.update(headers) if headers else HEADERS
 
 def api_get(url, token=None, headers={}, params={}):
-    r = requests.get(url, headers=header_add_token(token,headers), params=params, verify=ca_bundle_path)
-    r.raise_for_status()
-    return r
+    return requests.get(url, headers=header_add_token(token,headers), params=params, verify=ca_bundle_path)
 
 def api_post(url, token=None, headers={}, body=""):
     return requests.post(url, headers=header_add_token(token,headers), data=body, verify=ca_bundle_path)

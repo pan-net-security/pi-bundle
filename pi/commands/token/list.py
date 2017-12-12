@@ -21,20 +21,23 @@ class List(TokenBase):
 
         for arg_user in arg_users:
             user = {}
-            arg_user = re.sub('\W+', '', arg_user)
+
             user['name'] = arg_user
             user['tokens'] = []
+            user['result'] = False
+
             try:
                 user_tokens=self.get_tokens(user=arg_user)
+                user_tokens = json.loads(user_tokens.content)
+
                 if user_tokens:
-                    user_tokens = json.loads(user_tokens.content)
-
-                    # print(json.dumps(user_tokens, indent=4, sort_keys=True))
-                    # print(user_tokens['result']['status'])
-
                     if bool(user_tokens['result']['status']):
                         if 'tokens' in user_tokens['result']['value']:
                             user['tokens'] = user_tokens['result']['value']['tokens']
+                            user['result'] = True
+                    else:
+                            if user_tokens['result']['error']['code']==905:
+                                user['result'] = False
 
                 results.append(user)
 
@@ -46,6 +49,6 @@ class List(TokenBase):
 
     @property
     def parse_subcommand_(self):
-        if len(self.request.args)>0:
+        if self.request.args:
             return self.list
         self.fail("This command requires at least one argument and none was passed.")

@@ -7,8 +7,9 @@ The `pi` bundle exposes a set of commands which allow privacyidea operators to v
 edit details of privacyidea objects (tokens, users).
 
 By default, *no one* can use this bundle: 
-  * `token:list` requires `pi:read`
-  * `token:reset` requires `pi:read` (FIXME to `pi:write`)
+  * `pi:token-list` requires `pi:read`
+  * `pi:token-reset` requires `pi:write`
+  * `pi:token-delete` requires `pi:admin`
 
 # Installing
 

@@ -3,7 +3,7 @@ import json
 import re
 
 
-class List(TokenBase):
+class Reset(TokenBase):
     def __init__(self):
         super().__init__()
 
@@ -15,8 +15,7 @@ class List(TokenBase):
         results = []
 
         # currently supporting just one argument
-        arg_user = self.request.args[1]
-        arg_user = re.sub('\W+', '', arg_user)
+        arg_user = self.request.args[0]
 
         # options not yet supported
         # future implementation: serial - to reset one specific token failcounter
@@ -43,6 +42,6 @@ class List(TokenBase):
 
     @property
     def parse_subcommand_(self):
-        if len(self.request.args)>0:
+        if self.request.args:
             return self.reset
         self.fail("This command requires at least one argument and none was passed.")

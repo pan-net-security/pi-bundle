@@ -50,12 +50,14 @@ class PrivacyIdeaBase(Command):
 
         try:
             resp = util.api_post(url=token_endpoint,
-                            body=auth_data,
-                            )
+                                 body=auth_data,
+                                 )
             try:
                 resp = json.loads(resp.content)
             except Exception as e:
-                self.fail("Failed to acquire PI-Authorization token towards " + self.pi_fqdn + " with the following response: \n" + str(resp.content))
+                self.fail("Failed to acquire PI-Authorization token towards " + self.pi_fqdn + \
+                          " with the following response: \n" + str(
+                        resp.content))
                 return False
 
             if bool(resp['result']['status']):
@@ -71,25 +73,18 @@ class PrivacyIdeaBase(Command):
         except util.requests.exceptions.InvalidSchema as e:
             raise
 
-    def validate_serial(self, serial=""):
+    def validate_serial(self, serial=None):
         if serial:
             serial_length = 20
-            try:
-                if len(serial) > serial_length:
-                    self.fail("The token serial is too long (over " + str(serial_length) + " chars)")
-                if not serial.isalnum():
-                    self.fail("The token serial should be alphanumeric and... " + str(serial) + " is not #hax0r")
-            except Exception as e:
-                self.fail("Error while validating serial: " + str(e))
+            if len(serial) > serial_length:
+                self.fail("The token serial is too long (over " + str(serial_length) + " chars)")
+            if not serial.isalnum():
+                self.fail("The token serial is not alphanumeric: '" + str(serial) + "'")
 
-    def validate_user(self, user=""):
+    def validate_user(self, user=None):
         if user:
             username_length = 20
-            try:
-                if len(user) > username_length:
-                    self.fail("The username length is too long (over " + str(username_length) + " chars)")
-                if not user.isalnum():
-                    self.fail("The username should be alphanumeric and... " + str(user) + " is not #hax0r")
-
-            except Exception as e:
-                self.fail("Error while validating username: " + str(e))
+            if len(user) > username_length:
+                self.fail("The username length is too long (over " + str(username_length) + " chars)")
+            if not user.isalnum():
+                self.fail("The username is not alphanumeric: '" + str(user) + "'")

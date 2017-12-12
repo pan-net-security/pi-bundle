@@ -44,7 +44,6 @@ class Delete(TokenBase):
 
     @property
     def parse_subcommand_(self):
-        if len(self.request.args)>0:
+        if self.request.args:
             return self.delete
-
         self.fail("This command requires at least one argument and none was passed.")
