@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup (
     name = "pi",
-    version = "0.2.4",
+    version = "0.2.7",
     description = "Cog commands for privacyidea",
     author = "Diogenes Santos de Jesus",
     author_email = "diogenes.jesus@telekom.com",
