@@ -1,4 +1,4 @@
-[privacyidea](http://www.privacyidea.org) [cog bundle](http://cog-book.operable.io) 
+[privacyidea](http://www.privacyidea.org) [cog bundle](http://book.cog.bot) 
 =======================================
 
 # Overview
