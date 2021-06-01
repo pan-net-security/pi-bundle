@@ -2,6 +2,6 @@ requests>=2.20.0
 certifi==2017.7.27.1
 chardet==3.0.4
 requests==2.18.4
-urllib3==1.24.2
+urllib3==1.26.5
 git+https://github.com/operable/pycog3.git@0.1.28
 
